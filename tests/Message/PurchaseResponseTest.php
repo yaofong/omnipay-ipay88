@@ -9,7 +9,7 @@ class PurchaseResponseTest extends TestCase
 {
     public function testConstruct()
     {
-        $response = new PurchaseResponse($this->getMockedRequests(), [
+        $response = new PurchaseResponse($this->getMockRequest(), [
             'MerchantCode' => '12345',
             'PaymentId' => '',
             'RefNo' => 'A00000001',

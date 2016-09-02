@@ -5,7 +5,7 @@ namespace Omnipay\IPay88\Message;
 
 class CompletePurchaseRequest extends PurchaseRequest
 {
-    protected $endpoint = '';
+    protected $endpoint = 'https://www.mobile88.com/epayment/enquiry.asp';
 
     public function getMerchantKey()
     {

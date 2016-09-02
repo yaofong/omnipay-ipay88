@@ -25,12 +25,12 @@ class CompletePurchaseResponseTest extends TestCase
 
     public function testConstruct()
     {
-        $response = new CompletePurchaseResponse($this->getMockedRequests(), $this->successData);
+        $response = new CompletePurchaseResponse($this->getMockRequest(), $this->successData);
 
+        $this->assertTrue($response->isSuccessful());
         $this->assertSame('Successful payment', $response->getMessage());
         $this->assertSame('54321', $response->getTransactionReference());
         $this->assertSame('order_id', $response->getTransactionId());
-        $this->assertTrue($response->isSuccessful());
     }
 
     public function testConstruct_invalid_status()
@@ -39,12 +39,12 @@ class CompletePurchaseResponseTest extends TestCase
         $data['Status'] = 0;
         $data['ErrDesc'] = 'Duplicate reference number';
 
-        $response = new CompletePurchaseResponse($this->getMockedRequests(), $data);
+        $response = new CompletePurchaseResponse($this->getMockRequest(), $data);
 
-        $this->assertSame('Duplicate reference number', $response->getMessage());
-        $this->assertSame(null, $response->getTransactionReference());
-        $this->assertSame(null, $response->getTransactionId());
         $this->assertFalse($response->isSuccessful());
+        $this->assertSame('Duplicate reference number', $response->getMessage());
+        $this->assertSame('54321', $response->getTransactionReference());
+        $this->assertSame('order_id', $response->getTransactionId());
     }
 
     public function testConstruct_invalid_signature()
@@ -52,12 +52,12 @@ class CompletePurchaseResponseTest extends TestCase
         $data = $this->successData;
         $data['ComputedSignature'] = 'not_matching_signature';
 
-        $response = new CompletePurchaseResponse($this->getMockedRequests(), $data);
+        $response = new CompletePurchaseResponse($this->getMockRequest(), $data);
 
         $this->assertSame('Invalid signature returned from iPay88', $response->getMessage());
-        $this->assertSame(null, $response->getTransactionReference());
-        $this->assertSame(null, $response->getTransactionId());
         $this->assertFalse($response->isSuccessful());
+        $this->assertSame('54321', $response->getTransactionReference());
+        $this->assertSame('order_id', $response->getTransactionId());
     }
 
     public function testConstruct_invalid_re_query_status()
@@ -65,11 +65,11 @@ class CompletePurchaseResponseTest extends TestCase
         $data = $this->successData;
         $data['ReQueryStatus'] = 'Incorrect amount';
 
-        $response = new CompletePurchaseResponse($this->getMockedRequests(), $data);
+        $response = new CompletePurchaseResponse($this->getMockRequest(), $data);
 
         $this->assertSame('Amount different', $response->getMessage());
-        $this->assertSame(null, $response->getTransactionReference());
-        $this->assertSame(null, $response->getTransactionId());
         $this->assertFalse($response->isSuccessful());
+        $this->assertSame('54321', $response->getTransactionReference());
+        $this->assertSame('order_id', $response->getTransactionId());
     }
 }

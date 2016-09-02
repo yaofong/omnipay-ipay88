@@ -4,6 +4,7 @@ namespace Omnipay\IPay88\Message;
 
 
 use Omnipay\Common\Message\AbstractResponse;
+use Omnipay\Common\Message\RequestInterface;
 
 class CompletePurchaseResponse extends AbstractResponse
 {
@@ -18,8 +19,56 @@ class CompletePurchaseResponse extends AbstractResponse
 
     private $invalidSignatureMsg = 'Invalid signature returned from iPay88';
 
+    protected $message;
+
+    protected $status;
+
+    public function __construct(RequestInterface $request, $data)
+    {
+        parent::__construct($request, $data);
+
+        if ($this->data['Status'] != 1) {
+            $this->message = $this->data['ErrDesc'];
+            $this->status = false;
+            return;
+        }
+
+        if ($this->data['Signature'] != $this->data['ComputedSignature']) {
+            $this->message = $this->invalidSignatureMsg;
+            $this->status = false;
+            return;
+        }
+
+        $this->message =
+            isset($this->reQueryResponse[$this->data['ReQueryStatus']]) ? $this->reQueryResponse[$this->data['ReQueryStatus']] : '';
+
+        if ('00' == $this->data['ReQueryStatus']) {
+            $this->status = true;
+            return;
+        }
+
+        $this->status = false;
+        return;
+    }
+
     public function isSuccessful()
     {
-        // TODO: Implement isSuccessful() method.
+        return $this->status;
     }
+
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    public function getTransactionReference()
+    {
+        return $this->data['TransId'];
+    }
+
+    public function getTransactionId()
+    {
+        return $this->data['RefNo'];
+    }
+
 }
