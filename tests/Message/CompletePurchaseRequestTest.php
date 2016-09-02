@@ -16,23 +16,40 @@ class CompletePurchaseRequestTest extends TestCase
     {
         $this->request = new CompletePurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
 
-        $this->request->setMerchantKey('apple');
-
-        $this->request->setMerchantCode('M00003');
-
         $this->getHttpRequest()->request->replace([
             'MerchantCode' => 'M00003',
             'PaymentId' => 2,
             'RefNo' => '12345',
-            'Amount' => '100',
+            'Amount' => '1.00',
             'Currency' => 'MYR',
             'Remark' => '100',
             'TransId' => '54321',
             'AuthCode' => '',
             'Status' => 1,
             'ErrDesc' => '',
-            'Signature' => 'sig123'
+            'Signature' => 'a4THdPHQG9jT3DPZZ/mabkXUqow='
         ]);
+
+        $this->request->initialize([
+            'card' => [
+                'firstName' => 'Xu',
+                'lastName' => 'Ding',
+                'email' => 'xuding@spacebib.com',
+                'number' => '93804194'
+            ],
+            'amount' => '1.00',
+            'currency' => 'MYR',
+            'description' => 'Marina Run 2016',
+            'transactionId' => '12345',
+            'returnUrl' => 'https://www.example.com/return',
+        ]);
+
+        $this->request->setMerchantKey('apple');
+
+        $this->request->setMerchantCode('M00003');
+
+        $this->request->setBackendUrl('https://www.example.com/backend');
+
     }
 
     public function testGetDataReturnCorrectComputedSignature()
@@ -45,13 +62,10 @@ class CompletePurchaseRequestTest extends TestCase
     public function testSendSuccess()
     {
         $this->setMockHttpResponse('CompletePurchaseRequestReQuerySuccess.txt');
-
         $response = $this->request->send();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
-        $this->assertNull($response->getRedirectUrl());
-        $this->assertNull($response->getRedirectData());
         $this->assertSame('54321', $response->getTransactionReference());
     }
 
@@ -62,8 +76,6 @@ class CompletePurchaseRequestTest extends TestCase
 
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
-        $this->assertNull($response->getRedirectUrl());
-        $this->assertNull($response->getRedirectData());
         $this->assertSame('54321', $response->getTransactionReference());
     }
 

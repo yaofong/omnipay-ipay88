@@ -37,7 +37,5 @@ class PurchaseResponseTest extends TestCase
         $this->assertSame('https://www.mobile88.com/ePayment/entry.asp', $response->getRedirectUrl());
         $this->assertSame('POST', $response->getRedirectMethod());
         $this->assertEquals($data, $response->getRedirectData());
-
-//        $this->assertInstanceOf(\HttpResponse::class, $response->getRedirectResponse());
     }
 }

@@ -11,16 +11,34 @@ class CompletePurchaseRequest extends PurchaseRequest
     {
         $data = $this->httpRequest->request->all();
 
-        $data['ComputedSignature'] = '';
+        $data['ComputedSignature'] = $this->signature(
+            $this->getMerchantKey(),
+            $this->getMerchantCode(),
+            $data['PaymentId'],
+            $data['RefNo'],
+            $data['Amount'],
+            $data['Currency'],
+            $data['Status']
+        );
 
         return $data;
     }
 
     public function sendData($data)
     {
-        $data['ReQueryStatus'] = '';
+        $data['ReQueryStatus'] = $this->httpClient->post($this->endpoint, null, [
+            'MerchantCode' => $this->getMerchantCode(),
+            'RefNo' => $data['RefNo'],
+            'Amount' => number_format($data['Amount']),
+        ])->send()->getBody(true);
 
         return $this->response = new CompletePurchaseResponse($this, $data);
     }
 
+    private function signature($merchantKey, $merchantCode, $paymentId, $refNo, $amount, $currency, $status)
+    {
+        $amount = str_replace(array(',', '.'), '', $amount);
+
+        return $this->createSignatureFromString(implode('', array($merchantKey, $merchantCode, $paymentId, $refNo, $amount, $currency, $status)));
+    }
 }

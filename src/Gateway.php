@@ -1,13 +1,10 @@
 <?php
-/**
- * iPay8 Gateway
- */
 namespace Omnipay\IPay88;
 
 use Omnipay\Common\AbstractGateway;
 
 /**
- * iPay88 Gateway
+ * iPay8 Gateway Driver for Omnipay
  *
  * This driver is based on
  * Online Payment Switching Gateway Technical Specification Version 1.6.1
@@ -36,7 +33,7 @@ class Gateway extends AbstractGateway
 
     public function setMerchantKey($merchantKey)
     {
-        $this->setParameter('merchantKey', $merchantKey);
+        return $this->setParameter('merchantKey', $merchantKey);
     }
 
     public function getMerchantCode()
@@ -46,7 +43,7 @@ class Gateway extends AbstractGateway
 
     public function setMerchantCode($merchantCode)
     {
-        $this->setParameter('merchantCode', $merchantCode);
+        return $this->setParameter('merchantCode', $merchantCode);
     }
 
     public function getBackendUrl()
@@ -56,7 +53,7 @@ class Gateway extends AbstractGateway
 
     public function setBackendUrl($backendUrl)
     {
-        $this->setParameter('backendUrl', $backendUrl);
+        return $this->setParameter('backendUrl', $backendUrl);
     }
 
     public function purchase(array $parameters = array())

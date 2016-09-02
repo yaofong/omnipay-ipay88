@@ -7,4 +7,4 @@ Connection: keep-alive
 Cache-Control: private
 Set-Cookie: ASPSESSIONIDAUTTTSAD=POOLIMIAPDLFANEGKKDMIMDL; secure; path=/; Secure; HTTPONLY
 
-Successful payment
+00

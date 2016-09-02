@@ -2,6 +2,7 @@
 
 namespace Omnipay\IPay88\Message;
 
+
 use Omnipay\Common\Message\AbstractRequest;
 
 class PurchaseRequest extends AbstractRequest
@@ -13,7 +14,7 @@ class PurchaseRequest extends AbstractRequest
 
     public function setBackendUrl($backendUrl)
     {
-        $this->setParameter('backendUrl', $backendUrl);
+        return $this->setParameter('backendUrl', $backendUrl);
     }
 
     public function getMerchantKey()
@@ -23,7 +24,7 @@ class PurchaseRequest extends AbstractRequest
 
     public function setMerchantKey($merchantKey)
     {
-        $this->setParameter('merchantKey', $merchantKey);
+        return $this->setParameter('merchantKey', $merchantKey);
     }
 
     public function getMerchantCode()
@@ -33,7 +34,7 @@ class PurchaseRequest extends AbstractRequest
 
     public function setMerchantCode($merchantCode)
     {
-        $this->setParameter('merchantCode', $merchantCode);
+        return $this->setParameter('merchantCode', $merchantCode);
     }
 
     public function getData()
@@ -83,8 +84,11 @@ class PurchaseRequest extends AbstractRequest
     {
         $amount = str_replace(array(',', '.'), '', $amount);
 
-        $fullStringToHash = implode('', array($merchantKey, $merchantCode, $refNo, $amount, $currency));
+        return $this->createSignatureFromString(implode('', array($merchantKey, $merchantCode, $refNo, $amount, $currency)));
+    }
 
+    protected function createSignatureFromString($fullStringToHash)
+    {
         return base64_encode($this->hex2bin(sha1($fullStringToHash)));
     }
 
