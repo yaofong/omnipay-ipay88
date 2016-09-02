@@ -15,25 +15,25 @@ class PurchaseRequestTest extends TestCase
     {
         $this->request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
 
+        $this->request->initialize([
+            'card' => [
+                'firstName' => 'Xu',
+                'lastName' => 'Ding',
+                'email' => 'xuding@spacebib.com',
+                'number' => '93804194'
+            ],
+            'amount' => '1.00',
+            'currency' => 'MYR',
+            'description' => 'Marina Run 2016',
+            'transactionId' => 'A00000001',
+            'returnUrl' => 'https://www.example.com/return',
+        ]);
+
         $this->request->setMerchantKey('apple');
 
         $this->request->setMerchantCode('M00003');
 
-        $this->request->initialize(
-            array(
-                'card' => [
-                    'firstName' => 'Xu',
-                    'email' => 'xuding@spacebib.com',
-                    'number' => '93804194'
-                ],
-                'amount' => '1230.50',
-                'currency' => 'MYR',
-                'description' => 'Marina Run 2016',
-                'transactionId' => 'A00000001',
-                'returnUrl' => 'https://www.example.com/return'
-            )
-        );
-
+        $this->request->setBackendUrl('https://www.example.com/backend');
     }
 
     public function testGetData()
@@ -41,13 +41,13 @@ class PurchaseRequestTest extends TestCase
         $result = $this->request->getData();
 
         $expected = [
-            'MerchantCode' => '12345',
+            'MerchantCode' => 'M00003',
             'PaymentId' => '',
             'RefNo' => 'A00000001',
-            'Amount' => number_format('1230.50'),
+            'Amount' => number_format('1', 2),
             'Currency' => 'MYR',
             'ProdDesc' => 'Marina Run 2016',
-            'UserName' => 'Xu',
+            'UserName' => 'Xu Ding',
             'UserEmail' => 'xuding@spacebib.com',
             'UserContact' => '93804194',
             'Remark' => '',
@@ -69,7 +69,7 @@ class PurchaseRequestTest extends TestCase
 
         $this->request->setMerchantKey('orange');
         $result = $this->request->getData()['Signature'];
-        $this->expectNotEquals($signature, $result);
+        $this->assertNotEquals($signature, $result);
     }
 
 }

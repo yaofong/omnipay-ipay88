@@ -7,26 +7,6 @@ class CompletePurchaseRequest extends PurchaseRequest
 {
     protected $endpoint = 'https://www.mobile88.com/epayment/enquiry.asp';
 
-    public function getMerchantKey()
-    {
-        return $this->getParameter('merchantKey');
-    }
-
-    public function setMerchantKey($merchantKey)
-    {
-        $this->setParameter('merchantKey', $merchantKey);
-    }
-
-    public function getMerchantCode()
-    {
-        return $this->getParameter('merchantCode');
-    }
-
-    public function setMerchantCode($merchantCode)
-    {
-        $this->setParameter('merchantCode', $merchantCode);
-    }
-
     public function getData()
     {
         $data = $this->httpRequest->request->all();

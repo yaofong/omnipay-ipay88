@@ -21,6 +21,19 @@ class GatewayTest extends GatewayTestCase
         $this->gateway->setMerchantKey('apple');
 
         $this->gateway->setMerchantCode('M00003');
+
+        $this->options = [
+            'card' => [
+                'firstName' => 'Xu',
+                'email' => 'xuding@spacebib.com',
+                'number' => '93804194'
+            ],
+            'amount' => '1230.50',
+            'currency' => 'MYR',
+            'description' => 'Marina Run 2016',
+            'transactionId' => 'A00000001',
+            'returnUrl' => 'https://www.example.com/return',
+        ];
     }
 
     public function tearDown()
@@ -32,6 +45,7 @@ class GatewayTest extends GatewayTestCase
     public function testPurchase()
     {
         $response = $this->gateway->purchase($this->options)->send();
+
 
         $this->assertFalse($response->isSuccessful());
         $this->assertTrue($response->isRedirect());

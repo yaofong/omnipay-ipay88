@@ -15,18 +15,18 @@ use Omnipay\Common\AbstractGateway;
  */
 class Gateway extends AbstractGateway
 {
+    public function getName()
+    {
+        return 'iPay88';
+    }
 
     public function getDefaultParameters()
     {
         return [
             'merchantKey' => '',
-            'merchantCode' => ''
+            'merchantCode' => '',
+            'backendUrl' => ''
         ];
-    }
-
-    public function getName()
-    {
-        return 'iPay88';
     }
 
     public function getMerchantKey()
@@ -47,6 +47,16 @@ class Gateway extends AbstractGateway
     public function setMerchantCode($merchantCode)
     {
         $this->setParameter('merchantCode', $merchantCode);
+    }
+
+    public function getBackendUrl()
+    {
+        return $this->getParameter('backendUrl');
+    }
+
+    public function setBackendUrl($backendUrl)
+    {
+        $this->setParameter('backendUrl', $backendUrl);
     }
 
     public function purchase(array $parameters = array())
