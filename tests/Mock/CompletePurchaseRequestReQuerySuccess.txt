@@ -1,16 +1,10 @@
 HTTP/1.1 200 OK
-Cache-control: no-cache="set-cookie"
-Content-Type: application/json; charset=utf-8
-Date: Sat, 29 Jun 2013 04:30:54 GMT
-Set-Cookie: AWSELB=8361C96B088FEBBC7D3ABDFE8BA0FF6501B9705E7D00F53B19AA8D0E66C1AD34691F2170CB4C6B4D750DDAD028ED5C0787DEB1569F57CC58B5923AA0229EC5B49BD7647A57;PATH=/;MAX-AGE=86400
-X-EWAY-VIA: api-au.sandbox.ewaypayments.com/
-X-EWAY-VIA-FROM: http://api.sandbox.ewaypayments.com/GetAccessCodeResult.json
-X-EWAY-VIA-HTTP-METHOD: POST
-X-EWAY-VIA-HTTP-STATUS: 200
-X-EWAY-VIA-TO: http://api-au.sandbox.ewaypayments.com/GetAccessCodeResult.json
-X-ID: AM-143
-X-Powered-By: eWAY
-Content-Length: 473
+Server: nginx/1.9.12
+Date: Fri, 02 Sep 2016 06:17:31 GMT
+Content-Type: text/html
+Content-Length: 18
 Connection: keep-alive
+Cache-Control: private
+Set-Cookie: ASPSESSIONIDAUTTTSAD=POOLIMIAPDLFANEGKKDMIMDL; secure; path=/; Secure; HTTPONLY
 
-00
+Successful payment

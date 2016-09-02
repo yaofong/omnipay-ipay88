@@ -9,7 +9,7 @@ class PurchaseResponseTest extends TestCase
 {
     public function testConstruct()
     {
-        $response = new PurchaseResponse($this->getMockRequest(), [
+        $data = [
             'MerchantCode' => '12345',
             'PaymentId' => '',
             'RefNo' => 'A00000001',
@@ -24,7 +24,9 @@ class PurchaseResponseTest extends TestCase
             'Signature' => '84dNMbfgjLMS42IqSTPqQ99cUGA=',
             'ResponseURL' => 'https://www.example.com/return',
             'BackendURL' => 'https://www.example.com/backend',
-        ]);
+        ];
+
+        $response = new PurchaseResponse($this->getMockRequest(), $data);
 
         $this->assertFalse($response->isSuccessful());
         $this->assertTrue($response->isTransparentRedirect());
@@ -34,7 +36,8 @@ class PurchaseResponseTest extends TestCase
         $this->assertSame('A00000001', $response->getTransactionId());
         $this->assertSame('https://www.mobile88.com/ePayment/entry.asp', $response->getRedirectUrl());
         $this->assertSame('POST', $response->getRedirectMethod());
-        $this->assertNotEmpty($response->getRedirectResponse());
-        $this->assertInstanceOf(\HttpResponse::class, $response->getRedirectResponse());
+        $this->assertEquals($data, $response->getRedirectData());
+
+//        $this->assertInstanceOf(\HttpResponse::class, $response->getRedirectResponse());
     }
 }

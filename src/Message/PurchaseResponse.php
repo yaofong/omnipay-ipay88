@@ -9,6 +9,21 @@ class PurchaseResponse extends AbstractResponse
 {
     protected $endpoint = 'https://www.mobile88.com/ePayment/entry.asp';
 
+    public function getTransactionId()
+    {
+        return $this->data['RefNo'];
+    }
+
+    public function isTransparentRedirect()
+    {
+        return true;
+    }
+
+    public function isRedirect()
+    {
+        return true;
+    }
+
     public function isSuccessful()
     {
         return false;
@@ -19,6 +34,14 @@ class PurchaseResponse extends AbstractResponse
         return $this->endpoint;
     }
 
+    public function getRedirectMethod()
+    {
+        return 'POST';
+    }
 
+    public function getRedirectData()
+    {
+        return $this->data;
+    }
 
 }
