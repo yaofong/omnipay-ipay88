@@ -3,7 +3,7 @@
 namespace Omnipay\IPay88\Message;
 
 
-class CompletePurchaseRequest extends PurchaseRequest
+class CompletePurchaseRequest extends AbstractRequest
 {
     protected $endpoint = 'https://www.mobile88.com/epayment/enquiry.asp';
 
@@ -35,10 +35,12 @@ class CompletePurchaseRequest extends PurchaseRequest
         return $this->response = new CompletePurchaseResponse($this, $data);
     }
 
-    private function signature($merchantKey, $merchantCode, $paymentId, $refNo, $amount, $currency, $status)
+    protected function signature($merchantKey, $merchantCode, $paymentId, $refNo, $amount, $currency, $status)
     {
-        $amount = str_replace(array(',', '.'), '', $amount);
+        $amount = str_replace([',', '.'], '', $amount);
 
-        return $this->createSignatureFromString(implode('', array($merchantKey, $merchantCode, $paymentId, $refNo, $amount, $currency, $status)));
+        $paramsInArray = [$merchantKey, $merchantCode, $paymentId, $refNo, $amount, $currency, $status];
+
+        return $this->createSignatureFromString(implode('', $paramsInArray));
     }
 }

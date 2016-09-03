@@ -29,9 +29,10 @@ And run composer to update your dependencies:
 
 ## Basic Usage
 
-The following gateways are provided by this package:
+The following methods are provided by this package:
 
-Coming soon
++ purchase
++ completePurchase
 
 For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay)
 repository.

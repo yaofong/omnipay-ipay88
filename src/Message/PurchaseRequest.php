@@ -3,51 +3,10 @@
 namespace Omnipay\IPay88\Message;
 
 
-use Omnipay\Common\Message\AbstractRequest;
-
 class PurchaseRequest extends AbstractRequest
 {
-    public function getBackendUrl()
-    {
-        return $this->getParameter('backendUrl');
-    }
-
-    public function setBackendUrl($backendUrl)
-    {
-        return $this->setParameter('backendUrl', $backendUrl);
-    }
-
-    public function getMerchantKey()
-    {
-        return $this->getParameter('merchantKey');
-    }
-
-    public function setMerchantKey($merchantKey)
-    {
-        return $this->setParameter('merchantKey', $merchantKey);
-    }
-
-    public function getMerchantCode()
-    {
-        return $this->getParameter('merchantCode');
-    }
-
-    public function setMerchantCode($merchantCode)
-    {
-        return $this->setParameter('merchantCode', $merchantCode);
-    }
-
     public function getData()
     {
-        $this->validate(
-            'card',
-            'amount',
-            'currency',
-            'description',
-            'transactionId',
-            'returnUrl'
-        );
-
         return [
             'MerchantCode' => $this->getMerchantCode(),
             'PaymentId' => '',
@@ -72,9 +31,6 @@ class PurchaseRequest extends AbstractRequest
         ];
     }
 
-    /**
-     * @return PurchaseResponse
-     */
     public function sendData($data)
     {
         return $this->response = new PurchaseResponse($this, $data);
@@ -82,22 +38,11 @@ class PurchaseRequest extends AbstractRequest
 
     private function signature($merchantKey, $merchantCode, $refNo, $amount, $currency)
     {
-        $amount = str_replace(array(',', '.'), '', $amount);
+        $amount = str_replace([',', '.'], '', $amount);
 
-        return $this->createSignatureFromString(implode('', array($merchantKey, $merchantCode, $refNo, $amount, $currency)));
+        $paramsInArray = [$merchantKey, $merchantCode, $refNo, $amount, $currency];
+
+        return $this->createSignatureFromString(implode('', $paramsInArray));
     }
 
-    protected function createSignatureFromString($fullStringToHash)
-    {
-        return base64_encode($this->hex2bin(sha1($fullStringToHash)));
-    }
-
-    private function hex2bin($hexSource)
-    {
-        $bin = '';
-        for ($i = 0; $i < strlen($hexSource); $i = $i + 2) {
-            $bin .= chr(hexdec(substr($hexSource, $i, 2)));
-        }
-        return $bin;
-    }
 }
