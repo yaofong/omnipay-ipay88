@@ -7,6 +7,8 @@ class PurchaseRequest extends AbstractRequest
 {
     public function getData()
     {
+        $this->guardParameters();
+
         return [
             'MerchantCode' => $this->getMerchantCode(),
             'PaymentId' => '',

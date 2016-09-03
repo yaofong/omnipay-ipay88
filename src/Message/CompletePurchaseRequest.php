@@ -9,6 +9,8 @@ class CompletePurchaseRequest extends AbstractRequest
 
     public function getData()
     {
+        $this->guardParameters();
+
         $data = $this->httpRequest->request->all();
 
         $data['ComputedSignature'] = $this->signature(
