@@ -15,7 +15,7 @@
             "email": "thedilab@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev-master",
     "require": {
         "omnipay/common": "~2.0"
     },
