@@ -31,7 +31,7 @@ class CompletePurchaseRequest extends AbstractRequest
         $data['ReQueryStatus'] = $this->httpClient->post($this->endpoint, null, [
             'MerchantCode' => $this->getMerchantCode(),
             'RefNo' => $data['RefNo'],
-            'Amount' => number_format($data['Amount']),
+            'Amount' => number_format($data['Amount'], 2),
         ])->send()->getBody(true);
 
         return $this->response = new CompletePurchaseResponse($this, $data);
