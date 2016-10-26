@@ -3,6 +3,8 @@
 namespace Omnipay\IPay88\Message;
 
 
+use Omnipay\Common\Currency;
+
 class CompletePurchaseRequest extends AbstractRequest
 {
     protected $endpoint = 'https://www.mobile88.com/epayment/enquiry.asp';
@@ -31,7 +33,7 @@ class CompletePurchaseRequest extends AbstractRequest
         $data['ReQueryStatus'] = $this->httpClient->post($this->endpoint, null, [
             'MerchantCode' => $this->getMerchantCode(),
             'RefNo' => $data['RefNo'],
-            'Amount' => number_format($data['Amount'], 2),
+            'Amount' => $data['Amount'],
         ])->send()->getBody(true);
 
         return $this->response = new CompletePurchaseResponse($this, $data);

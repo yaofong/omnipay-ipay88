@@ -20,14 +20,14 @@ class CompletePurchaseRequestTest extends TestCase
             'MerchantCode' => 'M00003',
             'PaymentId' => 2,
             'RefNo' => '12345',
-            'Amount' => '1.00',
+            'Amount' => '2,741.16',
             'Currency' => 'MYR',
             'Remark' => '100',
             'TransId' => '54321',
             'AuthCode' => '',
             'Status' => 1,
             'ErrDesc' => '',
-            'Signature' => 'a4THdPHQG9jT3DPZZ/mabkXUqow='
+            'Signature' => '0X0Yq8zEmJ3ddMtn8e/1suethT8='
         ]);
 
         $this->request->initialize([
@@ -56,7 +56,7 @@ class CompletePurchaseRequestTest extends TestCase
     {
         $data = $this->request->getData();
 
-        $this->assertSame('a4THdPHQG9jT3DPZZ/mabkXUqow=', $data['ComputedSignature']);
+        $this->assertSame('0X0Yq8zEmJ3ddMtn8e/1suethT8=', $data['ComputedSignature']);
     }
 
     public function testSendSuccess()
