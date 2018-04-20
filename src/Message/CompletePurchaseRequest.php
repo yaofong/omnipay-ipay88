@@ -31,11 +31,11 @@ class CompletePurchaseRequest extends AbstractRequest
     public function sendData($data)
     {
         $data['ReQueryStatus'] = $this->httpClient
-            ->request('post', $this->endpoint, [], json_encode([
+            ->request('post', $this->endpoint.'?'.http_build_query([
                 'MerchantCode' => $this->getMerchantCode(),
                 'RefNo' => $data['RefNo'],
-                'Amount' => $data['Amount'],
-            ]))
+                'Amount' => $data['Amount']
+                ]), [], json_encode([]))
             ->getBody()
             ->getContents();
 
